@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "./packages/cli" },
-    { "path": "./packages/local-mcp" }
+    { "path": "./packages/local-mcp" },
+    { "path": "./apps/remote-mcp" }
   ]
 }
