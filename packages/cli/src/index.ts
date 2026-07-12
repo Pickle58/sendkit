@@ -18,16 +18,6 @@ program
             process.exit(1);
         }
 
-        if (!chatId) {
-            console.error("Missing Telegram chatId argument");
-            process.exit(1);
-        }
-
-        if (!message) {
-            console.error("Missing Telegram message text.");
-            process.exit(1);
-        }
-
         try {
             const result = await sendTelegramMessage({
                 botToken: token,
@@ -44,5 +34,8 @@ program
         }
     });
 
-program.parseAsync(process.argv);
+program.parseAsync(process.argv).catch((err) => {
+    console.error(err instanceof Error ? err.message : String(err));
+    process.exit(1);
+});
 

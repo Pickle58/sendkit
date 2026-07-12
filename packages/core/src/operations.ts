@@ -30,9 +30,10 @@ export async function sendTelegramMessage(
     let json: unknown;
     try {
         json = await response.json();
-    } catch {
+    } catch (err) {
         throw new Error(
-            `Telegram API returned an unexpected response (HTTP ${response.status})`,
+            `Telegram API returned an unexpected response (HTTP ${response.status}): ${err instanceof Error ? err.message : String(err)}`,
+            { cause: err },
         );
     }
 

@@ -5,6 +5,7 @@ dist/
 !.env.example
 .DS_Store
 *.log
+tsconfig.tsbuildinfo
 
 mcp.json
 .mcp.json
