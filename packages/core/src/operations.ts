@@ -27,7 +27,16 @@ export async function sendTelegramMessage(
         }
     );
 
-    const data = telegramSendMessageResponseSchema.parse(await response.json());
+    let json: unknown;
+    try {
+        json = await response.json();
+    } catch {
+        throw new Error(
+            `Telegram API returned an unexpected response (HTTP ${response.status})`,
+        );
+    }
+
+    const data = telegramSendMessageResponseSchema.parse(json);
 
     if (!response.ok || !data.ok || !data.result) {
         throw new Error(data.description ?? "Telegram message request failed");

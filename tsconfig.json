@@ -1,4 +1,7 @@
 {
   "files": [],
-  "references": [{ "path": "./packages/cli" }]
+  "references": [
+    { "path": "./packages/cli" },
+    { "path": "./packages/local-mcp" }
+  ]
 }
