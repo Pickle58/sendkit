@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        "sendkit": {
+            "type": "stdio",
+            "command": "bun",
+            "args": ["run", "dev:local-mcp"],
+            "envFile": ".env"
+        }
+    }
+}
