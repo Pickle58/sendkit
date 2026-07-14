@@ -16,7 +16,7 @@
     "build:local-mcp": "bun run --filter @pickle61/sendkit-mcp build",
     "dev:cli": "bun run packages/cli/src/index.ts",
     "dev:local-mcp": "bun run packages/local-mcp/src/index.ts",
-    "dev:remote-mcp": "bun run apps/remote-mcp/src/index.ts",
+    "dev:remote-mcp": "bun --env-file=.env run apps/remote-mcp/src/index.ts",
     "typecheck": "tsc -b"
   },
   "devDependencies": {
