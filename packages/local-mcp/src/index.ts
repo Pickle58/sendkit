@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
@@ -5,7 +6,7 @@ import { sendTelegramMessage, telegramMessageInputSchema } from "@pickle61/sendk
 
 const server = new McpServer({
   name: "sendkit-local",
-  version: "0.0.0",
+  version: "0.0.1",
 });
 
 function getTelegramBotToken() {
