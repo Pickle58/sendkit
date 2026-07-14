@@ -36,10 +36,10 @@ clerk doctor --json
 
 After `clerk env pull`, your gitignored `.env` should include:
 
-| Variable | Purpose |
-|---|---|
-| `CLERK_PUBLISHABLE_KEY` | Public key (`pk_test_...` or `pk_live_...`) |
-| `CLERK_SECRET_KEY` | Server secret (`sk_test_...` or `sk_live_...`) |
+| Variable                | Purpose                                        |
+| ----------------------- | ---------------------------------------------- |
+| `CLERK_PUBLISHABLE_KEY` | Public key (`pk_test_...` or `pk_live_...`)    |
+| `CLERK_SECRET_KEY`      | Server secret (`sk_test_...` or `sk_live_...`) |
 
 See `.env.example` for the full list including Telegram settings.
 
