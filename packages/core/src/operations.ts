@@ -1,51 +1,48 @@
 import {
-    telegramMessageOutputSchema,
-    telegramMessageOptionsSchema,
-    telegramSendMessageRequestSchema,
-    telegramSendMessageResponseSchema,
-    type TelegramMessageOptions,
-    type TelegramMessageOutput,
+  telegramMessageOutputSchema,
+  telegramMessageOptionsSchema,
+  telegramSendMessageRequestSchema,
+  telegramSendMessageResponseSchema,
+  type TelegramMessageOptions,
+  type TelegramMessageOutput,
 } from "./schemas";
 
 export async function sendTelegramMessage(
-    input: TelegramMessageOptions,
+  input: TelegramMessageOptions,
 ): Promise<TelegramMessageOutput> {
-    const parsedInput = telegramMessageOptionsSchema.parse(input);
-    const requestBody = telegramSendMessageRequestSchema.parse({
-        chat_id: parsedInput.chatId,
-        text: parsedInput.message,
-    });
+  const parsedInput = telegramMessageOptionsSchema.parse(input);
+  const requestBody = telegramSendMessageRequestSchema.parse({
+    chat_id: parsedInput.chatId,
+    text: parsedInput.message,
+  });
 
-    const response = await fetch(
-        `https://api.telegram.org/bot${parsedInput.botToken}/sendMessage`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: await Response.json(requestBody).text(),
-        }
+  const response = await fetch(`https://api.telegram.org/bot${parsedInput.botToken}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: await Response.json(requestBody).text(),
+  });
+
+  let json: unknown;
+  try {
+    json = await response.json();
+  } catch (err) {
+    throw new Error(
+      `Telegram API returned an unexpected response (HTTP ${response.status}): ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err },
     );
+  }
 
-    let json: unknown;
-    try {
-        json = await response.json();
-    } catch (err) {
-        throw new Error(
-            `Telegram API returned an unexpected response (HTTP ${response.status}): ${err instanceof Error ? err.message : String(err)}`,
-            { cause: err },
-        );
-    }
+  const data = telegramSendMessageResponseSchema.parse(json);
 
-    const data = telegramSendMessageResponseSchema.parse(json);
+  if (!response.ok || !data.ok || !data.result) {
+    throw new Error(data.description ?? "Telegram message request failed");
+  }
 
-    if (!response.ok || !data.ok || !data.result) {
-        throw new Error(data.description ?? "Telegram message request failed");
-    }
-
-    return telegramMessageOutputSchema.parse({
-        ok: true,
-        chatId: parsedInput.chatId,
-        messageId: data.result.message_id,
-    });
-};
+  return telegramMessageOutputSchema.parse({
+    ok: true,
+    chatId: parsedInput.chatId,
+    messageId: data.result.message_id,
+  });
+}
