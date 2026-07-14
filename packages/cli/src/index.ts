@@ -17,7 +17,10 @@ function writeTelegramBotToken(token: string) {
   let config: Record<string, unknown> = {};
   if (existsSync(configPath)) {
     try {
-      config = JSON.parse(readFileSync(configPath, "utf8")) as Record<string, unknown>;
+      const parsed: unknown = JSON.parse(readFileSync(configPath, "utf8"));
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        config = parsed as Record<string, unknown>;
+      }
     } catch {
       // Ignore parse errors; overwrite with a fresh object below.
     }
