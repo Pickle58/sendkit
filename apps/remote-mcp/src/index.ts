@@ -101,7 +101,8 @@ app.post("/:botToken/mcp", async (c) => {
         if (!requestState.isAuthenticated) {
             return unauthorizedMcpResponse(c, botToken);
         }
-    } catch {
+    } catch (error) {
+        console.error("Clerk authenticateRequest error:", error);
         return unauthorizedMcpResponse(c, botToken);
     }
 
@@ -131,8 +132,16 @@ export default {
     port,
     fetch: (req: Request) => {
         const url = new URL(req.url);
-        url.protocol = req.headers.get("x-forwarded-proto") ?? url.protocol;
-        url.host = req.headers.get("x-forwarded-host") ?? url.host;
+        const proto = req.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+        const host = req.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
+
+        if (proto) {
+            url.protocol = proto.endsWith(":") ? proto : `${proto}:`;
+        }
+
+        if (host) {
+            url.host = host;
+        }
 
         return app.fetch(new Request(url, req));
     },
