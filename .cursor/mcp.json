@@ -1,10 +1,12 @@
 {
-    "mcpServers": {
-        "sendkit": {
-            "type": "stdio",
-            "command": "bun",
-            "args": ["run", "dev:local-mcp"],
-            "envFile": ".env"
-        }
+  "mcpServers": {
+    "sendkit": {
+      "type": "stdio",
+      "command": "bun",
+      "args": ["run", "packages/local-mcp/dist/index.js"],
+      "env": {
+        "TELEGRAM_BOT_TOKEN": "8944431385:AAG9Wm4-yU5d-X_IJZYchsSt6OA8xknLwIo"
+      }
     }
+  }
 }

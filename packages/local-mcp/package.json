@@ -1,13 +1,29 @@
 {
   "name": "@pickle61/sendkit-mcp",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
+  "version": "0.0.1",
+  "bin": {
+    "sendkit-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
   },
   "scripts": {
-    "build": "tsdown"
+    "build": "tsdown",
+    "pack:dry": "bun run build && bun pm pack --dry-run",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
